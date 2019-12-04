@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
 import kotlinx.android.synthetic.main.main_list_item.view.*
 
-class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MainListViewHolder>() {
-
-    val data: List<String> = listOf("Day 01", "Day 02", "Day 03")
+class MainListAdapter(
+    private val onClickListener: View.OnClickListener,
+    private val data: List<String>
+) : RecyclerView.Adapter<MainListAdapter.MainListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             MainListViewHolder {
@@ -17,6 +18,7 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MainListViewHolder>
             R.layout.main_list_item,
             parent, false
         )
+        view.setOnClickListener(onClickListener)
         return MainListViewHolder(view)
     }
 
