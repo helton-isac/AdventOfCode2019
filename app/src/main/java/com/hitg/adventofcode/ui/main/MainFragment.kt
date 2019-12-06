@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
+import com.hitg.adventofcode.ui.day01.Day01Fragment
 import kotlinx.android.synthetic.main.main_fragment.view.*
+import java.util.*
 
 
 class MainFragment : Fragment() {
@@ -22,7 +24,15 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var mainList: RecyclerView
 
-    val data: List<String> = listOf("Day 01", "Day 02", "Day 03")
+    val data: List<String> = createTestList()
+
+    fun createTestList(): List<String> {
+        val testList = ArrayList<String>()
+        for (i in 1..25) {
+            testList.add("Day $i")
+        }
+        return testList
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +54,16 @@ class MainFragment : Fragment() {
         val itemPosition = mainList.getChildLayoutPosition(it)
         val item = data.get(itemPosition)
         Toast.makeText(this.context, item, Toast.LENGTH_LONG).show()
+        val transaction = this.activity?.supportFragmentManager?.beginTransaction()
+
+        if (transaction != null) {
+            transaction.replace(R.id.container, Day01Fragment.newInstance())
+            transaction.addToBackStack(null)
+            transaction.commit()
+            this.activity?.supportFragmentManager?.executePendingTransactions()
+        }
+
     }
+
 
 }
