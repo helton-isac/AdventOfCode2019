@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Advent Of Code 2019</string>
+    <string name="empty_second_star">Empty Second Star</string>
+    <string name="empty_first_star">Empty First Star</string>
+    <string name="first_star_done">First Star Done</string>
+    <string name="second_star_done">Second Star Done</string>
 </resources>
