@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
 import com.hitg.adventofcode.domain.model.*
-import com.hitg.adventofcode.ui.day01.Day01Fragment
+import com.hitg.adventofcode.ui.challenge.ChallengeFragment
 import kotlinx.android.synthetic.main.main_fragment.view.*
 import java.util.*
 
@@ -83,11 +82,18 @@ class MainFragment : Fragment() {
     val onClickListener: View.OnClickListener = View.OnClickListener {
         val itemPosition = mainList.getChildLayoutPosition(it)
         val item = data[itemPosition]
-        Toast.makeText(this.context, item.getTitle(), Toast.LENGTH_LONG).show()
         val transaction = this.activity?.supportFragmentManager?.beginTransaction()
 
+
         if (transaction != null) {
-            transaction.replace(R.id.container, Day01Fragment.newInstance())
+            val challengeFragment = ChallengeFragment()
+            val args = Bundle()
+            args.putInt("day", item.getDay())
+            args.putString("title", item.getTitle())
+            args.putBoolean("hasFirstStar", item.hasFirstStar())
+            args.putBoolean("hasSecondStar", item.hasSecondStar())
+            challengeFragment.arguments = args
+            transaction.replace(R.id.container, challengeFragment)
             transaction.addToBackStack(null)
             transaction.commit()
             this.activity?.supportFragmentManager?.executePendingTransactions()

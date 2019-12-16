@@ -3,5 +3,5 @@ package com.hitg.adventofcode.domain.model
 class DayChallenge16 : DayChallenge {
     override fun getDay(): Int = 16
 
-    override fun getTitle(): String = "???"
+    override fun getTitle(): String = "Flawed Frequency Transmission"
 }
