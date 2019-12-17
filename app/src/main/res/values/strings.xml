@@ -4,4 +4,8 @@
     <string name="empty_first_star">Empty First Star</string>
     <string name="first_star_done">First Star Done</string>
     <string name="second_star_done">Second Star Done</string>
+    <string name="link_to_advent_of_code_page_on_this_challenge">Link to Advent of Code Page on this Challenge</string>
+    <string name="puzzle_input">Puzzle Input</string>
+    <string name="day_text">Day %d</string>
+    <string name="adventofcode_link">https://adventofcode.com/2019/day/</string>
 </resources>
