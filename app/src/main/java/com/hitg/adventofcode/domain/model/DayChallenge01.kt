@@ -8,4 +8,12 @@ class DayChallenge01 : DayChallenge {
     override fun hasFirstStar(): Boolean = true
 
     override fun hasSecondStar(): Boolean = true
+
+    override fun calculateFirstAnswer(): String {
+        return ""
+    }
+
+    override fun calculateSecondAnswer(): String {
+        return ""
+    }
 }

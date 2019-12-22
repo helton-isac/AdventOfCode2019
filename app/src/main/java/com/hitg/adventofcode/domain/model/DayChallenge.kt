@@ -5,7 +5,11 @@ interface DayChallenge {
 
     fun getTitle(): String
 
-    fun hasFirstStar(): Boolean = false
+    fun hasFirstStar(): Boolean
 
-    fun hasSecondStar(): Boolean = false
+    fun hasSecondStar(): Boolean
+
+    fun calculateFirstAnswer(): String
+
+    fun calculateSecondAnswer(): String
 }
