@@ -4,19 +4,17 @@ import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.hitg.adventofcode.R
+import com.hitg.adventofcode.repository.TxtRepo
 import kotlinx.android.synthetic.main.challenge_fragment.*
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 
 
 class ChallengeFragment : Fragment() {
@@ -68,17 +66,12 @@ class ChallengeFragment : Fragment() {
         }
 
         view.findViewById<ImageView>(R.id.imgPuzzleInput).setOnClickListener {
-            if (puzzleInputWebView.visibility == View.GONE) {
-                val sb = StringBuilder("<html><body>")
-                sb.append(readTextFile("input$day"))
-                sb.append("</body></html>")
-                puzzleInputWebView.loadData(sb.toString(), "text/html", "UTF-8")
-                puzzleInputWebView.visibility = View.VISIBLE
-                puzzleInputWebView.settings.builtInZoomControls = true
-                puzzleInputWebView.setBackgroundColor(0x00000000)
-                puzzleInputWebView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
+            if (txtInputWebView.visibility == View.GONE) {
+                txtInputWebView.text = readTextFile("input$day")
+                txtInputWebView.movementMethod = ScrollingMovementMethod()
+                txtInputWebView.visibility = View.VISIBLE
             } else {
-                puzzleInputWebView.visibility = View.GONE
+                txtInputWebView.visibility = View.GONE
             }
         }
 
@@ -109,9 +102,7 @@ class ChallengeFragment : Fragment() {
             activity?.packageName
         )
         if (resId != 0) {
-            val stream: InputStream = res.openRawResource(resId)
-            val bufferedReader = BufferedReader(InputStreamReader(stream))
-            return bufferedReader.use { it.readText() }
+            return TxtRepo.readTextFile(res.openRawResource(resId))
         }
         return ""
     }

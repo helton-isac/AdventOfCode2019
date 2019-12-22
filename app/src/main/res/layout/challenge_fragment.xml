@@ -87,11 +87,12 @@
         app:layout_constraintTop_toTopOf="@+id/imgPuzzleInput"
         app:srcCompat="@drawable/ic_share_black_48dp" />
 
-    <WebView
-        android:id="@+id/puzzleInputWebView"
+    <TextView
+        android:id="@+id/txtInputWebView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
+        android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
