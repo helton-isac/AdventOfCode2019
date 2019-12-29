@@ -94,7 +94,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:background="#ADABAB"
         android:fontFamily="monospace"
         android:paddingStart="8dp"
@@ -105,14 +104,68 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLink"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="#....\n#...#\n##.##\n....#\n#.##."
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/txtFirstAnswerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/first_puzzle_answer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInputWebView" />
+
+    <TextView
+        android:id="@+id/txtSecondAnswerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/second_puzzle_answer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtFirstAnswerLabel" />
+
+    <TextView
+        android:id="@+id/txtFirstAnswer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#4CAF50"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="#FFEB3B"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtFirstAnswerLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtFirstAnswerLabel"
+        app:layout_constraintTop_toTopOf="@+id/txtFirstAnswerLabel"
+        tools:text="12345" />
+
+    <TextView
+        android:id="@+id/txtSecondAnswer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#4CAF50"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="#FFEB3B"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtSecondAnswerLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtSecondAnswerLabel"
+        app:layout_constraintTop_toTopOf="@+id/txtSecondAnswerLabel"
+        tools:text="6789" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,4 +8,6 @@
     <string name="puzzle_input">Puzzle Input</string>
     <string name="day_text">Day %d</string>
     <string name="adventofcode_link">https://adventofcode.com/2019/day/</string>
+    <string name="first_puzzle_answer">First puzzle answer:</string>
+    <string name="second_puzzle_answer">Second puzzle answer:</string>
 </resources>
