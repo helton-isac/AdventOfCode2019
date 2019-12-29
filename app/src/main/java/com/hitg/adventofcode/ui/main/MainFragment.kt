@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
 
     private val data: List<DayChallenge> = createTestList()
 
-    fun createTestList(): List<DayChallenge> {
+    private fun createTestList(): List<DayChallenge> {
         val testList = ArrayList<DayChallenge>()
         testList.add(DayChallenge01())
         testList.add(DayChallenge02())
@@ -79,7 +79,7 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 
-    val onClickListener: View.OnClickListener = View.OnClickListener {
+    private val onClickListener: View.OnClickListener = View.OnClickListener {
         val itemPosition = mainList.getChildLayoutPosition(it)
         val item = data[itemPosition]
         val transaction = this.activity?.supportFragmentManager?.beginTransaction()
