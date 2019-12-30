@@ -1,5 +1,6 @@
 package com.hitg.adventofcode.repository.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -9,7 +10,7 @@ import com.hitg.adventofcode.domain.model.Challenge
 @Dao
 interface ChallengeDAO {
     @Query("SELECT * from challenge ORDER BY day ASC")
-    fun getAllChallenges(): List<Challenge>
+    fun getAllChallenges(): LiveData<List<Challenge>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(challenge: Challenge)
