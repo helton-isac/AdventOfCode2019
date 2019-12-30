@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
-import com.hitg.adventofcode.domain.model.DayChallenge
+import com.hitg.adventofcode.domain.model.Challenge
 import kotlinx.android.synthetic.main.main_list_item.view.*
 
 class MainListAdapter(
-    private val onClickListener: View.OnClickListener,
-    private val data: List<DayChallenge>
+    private val onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<MainListAdapter.MainListViewHolder>() {
+
+    private var challenges = emptyList<Challenge>() // Cached copy of words
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             MainListViewHolder {
@@ -23,13 +24,18 @@ class MainListAdapter(
         return MainListViewHolder(view)
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = challenges.size
 
     override fun onBindViewHolder(holder: MainListViewHolder, position: Int) {
-        val dayChallengeValue = data[position]
-        holder.setDay(dayChallengeValue.getDay())
-        holder.setText(dayChallengeValue.getTitle())
-        holder.setStars(dayChallengeValue.hasFirstStar(), dayChallengeValue.hasSecondStar())
+        val dayChallengeValue = challenges[position]
+        holder.setDay(dayChallengeValue.day)
+        holder.setText(dayChallengeValue.name)
+        holder.setStars(dayChallengeValue.firstStar, dayChallengeValue.secondStar)
+    }
+
+    internal fun setChallenges(challenges: List<Challenge>) {
+        this.challenges = challenges
+        notifyDataSetChanged()
     }
 
     class MainListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
-import com.hitg.adventofcode.domain.model.*
+import com.hitg.adventofcode.domain.model.Challenge
 import com.hitg.adventofcode.ui.challenge.ChallengeFragment
 import kotlinx.android.synthetic.main.main_fragment.view.*
-import java.util.*
 
 
 class MainFragment : Fragment() {
@@ -25,39 +25,7 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var mainList: RecyclerView
 
-    private val data: List<DayChallenge> = createTestList()
-
-    private fun createTestList(): List<DayChallenge> {
-        val testList = ArrayList<DayChallenge>()
-        testList.add(DayChallenge01())
-        testList.add(DayChallenge02())
-        testList.add(DayChallenge03())
-        testList.add(DayChallenge04())
-        testList.add(DayChallenge05())
-        testList.add(DayChallenge06())
-        testList.add(DayChallenge07())
-        testList.add(DayChallenge08())
-        testList.add(DayChallenge09())
-        testList.add(DayChallenge10())
-        testList.add(DayChallenge11())
-        testList.add(DayChallenge12())
-        testList.add(DayChallenge13())
-        testList.add(DayChallenge14())
-        testList.add(DayChallenge15())
-        testList.add(DayChallenge16())
-        testList.add(DayChallenge17())
-        testList.add(DayChallenge18())
-        testList.add(DayChallenge19())
-        testList.add(DayChallenge20())
-        testList.add(DayChallenge21())
-        testList.add(DayChallenge22())
-        testList.add(DayChallenge23())
-        testList.add(DayChallenge24())
-        testList.add(DayChallenge25())
-
-
-        return testList
-    }
+    private lateinit var adapter: MainListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +33,8 @@ class MainFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         mainList = view.mainList
-        mainList.adapter = MainListAdapter(onClickListener, data)
+        adapter = MainListAdapter(onClickListener)
+        mainList.adapter = adapter
         mainList.layoutManager = LinearLayoutManager(this.context)
         mainList.addItemDecoration(
             DividerItemDecoration(mainList.context, DividerItemDecoration.VERTICAL)
@@ -77,21 +46,25 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.allChallenges.observe(this, Observer { challenges ->
+            challenges?.let { adapter.setChallenges(it) }
+        })
     }
 
     private val onClickListener: View.OnClickListener = View.OnClickListener {
+        // TODO: FIX ON CLICK
         val itemPosition = mainList.getChildLayoutPosition(it)
-        val item = data[itemPosition]
+        val item = Challenge(1, "Ops")// data[itemPosition]
         val transaction = this.activity?.supportFragmentManager?.beginTransaction()
 
 
         if (transaction != null) {
             val challengeFragment = ChallengeFragment()
             val args = Bundle()
-            args.putInt("day", item.getDay())
-            args.putString("title", item.getTitle())
-            args.putBoolean("hasFirstStar", item.hasFirstStar())
-            args.putBoolean("hasSecondStar", item.hasSecondStar())
+            args.putInt("day", item.day)
+            args.putString("title", item.name)
+            args.putBoolean("hasFirstStar", item.firstStar)
+            args.putBoolean("hasSecondStar", item.secondStar)
             challengeFragment.arguments = args
             transaction.replace(R.id.container, challengeFragment)
             transaction.addToBackStack(null)

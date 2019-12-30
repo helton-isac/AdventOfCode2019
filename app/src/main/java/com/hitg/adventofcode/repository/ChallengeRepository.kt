@@ -8,7 +8,7 @@ class ChallengeRepository(private val challengeDAO: ChallengeDAO) {
 
     val allChallenges: LiveData<List<Challenge>> = challengeDAO.getAllChallenges()
 
-    suspend fun insert(challenge: Challenge) {
-        challengeDAO.insert(challenge)
+    suspend fun update(challenge: Challenge) {
+        challengeDAO.update(challenge)
     }
 }
