@@ -9,6 +9,9 @@ interface ChallengeDAO {
     @Query("SELECT * from challenge ORDER BY day ASC")
     fun getAllChallenges(): LiveData<List<Challenge>>
 
+    @Query("SELECT * FROM challenge WHERE day=:day ")
+    fun getChallengeByDay(day: Int): LiveData<Challenge?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(challenge: Challenge)
 

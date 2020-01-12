@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.hitg.adventofcode.domain.model.Challenge
 import com.hitg.adventofcode.repository.ChallengeRepository
+import com.hitg.adventofcode.repository.database.ChallengeDAO
 import com.hitg.adventofcode.repository.database.ChallengeRoomDatabase
-import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -15,14 +15,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val allChallenges: LiveData<List<Challenge>>
 
-    init {
-        val challengeDao =
+    private val challengeDao: ChallengeDAO =
             ChallengeRoomDatabase.getDatabase(application, viewModelScope).challengeDao()
+
+    init {
         repository = ChallengeRepository(challengeDao)
         allChallenges = repository.allChallenges
     }
 
-    fun update(challenge: Challenge) = viewModelScope.launch {
-        repository.update(challenge)
-    }
 }

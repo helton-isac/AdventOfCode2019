@@ -16,25 +16,28 @@ import com.hitg.adventofcode.R
 import com.hitg.adventofcode.repository.TxtRepo
 import kotlinx.android.synthetic.main.challenge_fragment.*
 
-
 class ChallengeFragment : Fragment() {
+
+    private val day: Int by lazy {
+        arguments?.getInt("day", 0) ?: 0
+    }
 
     private lateinit var viewModel: ChallengeViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.challenge_fragment, container, false)
         val args = arguments ?: return view
 
         val day: Int = args.getInt("day", 0)
+
         val title = args.getString("title", "")
         val hasFirstStar = args.getBoolean("hasFirstStar", false)
         val hasSecondStar = args.getBoolean("hasSecondStar", false)
 
         view.findViewById<TextView>(R.id.txt_day).text =
-            String.format(getString(R.string.day_text), day)
+                String.format(getString(R.string.day_text), day)
         view.findViewById<TextView>(R.id.challenge_title).text = title
 
         val imgFirstStar = view.findViewById<ImageView>(R.id.img_star_1)
@@ -42,20 +45,20 @@ class ChallengeFragment : Fragment() {
         if (hasFirstStar) {
             imgFirstStar.setImageResource(R.drawable.ic_star_gold_24dp)
             imgFirstStar.contentDescription =
-                imgFirstStar.context.getString(R.string.first_star_done)
+                    imgFirstStar.context.getString(R.string.first_star_done)
         } else {
             imgFirstStar.setImageResource(R.drawable.ic_star_black_24dp)
             imgFirstStar.contentDescription =
-                imgFirstStar.context.getString(R.string.empty_first_star)
+                    imgFirstStar.context.getString(R.string.empty_first_star)
         }
         if (hasSecondStar) {
             imgSecondStar.setImageResource(R.drawable.ic_star_gold_24dp)
             imgSecondStar.contentDescription =
-                imgSecondStar.context.getString(R.string.second_star_done)
+                    imgSecondStar.context.getString(R.string.second_star_done)
         } else {
             imgSecondStar.setImageResource(R.drawable.ic_star_black_24dp)
             imgSecondStar.contentDescription =
-                imgSecondStar.context.getString(R.string.empty_second_star)
+                    imgSecondStar.context.getString(R.string.empty_second_star)
         }
         val challengeLink = getString(R.string.adventofcode_link) + day
 
@@ -92,19 +95,17 @@ class ChallengeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val factory = ChallengeViewModelModelFactory(day, this)
+        ViewModelProviders.of(this, factory).get(ChallengeViewModel::class.java)
         viewModel = ViewModelProviders.of(this).get(ChallengeViewModel::class.java)
     }
 
     private fun readTextFile(rawFileName: String): String {
         val res: Resources = resources
-        val resId = res.getIdentifier(
-            rawFileName, "raw",
-            activity?.packageName
-        )
+        val resId = res.getIdentifier(rawFileName, "raw", activity?.packageName)
         if (resId != 0) {
             return TxtRepo.readTextFile(res.openRawResource(resId))
         }
         return ""
     }
-
 }

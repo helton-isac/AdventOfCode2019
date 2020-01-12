@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
-import com.hitg.adventofcode.domain.model.Challenge
 import com.hitg.adventofcode.ui.challenge.ChallengeFragment
 import kotlinx.android.synthetic.main.main_fragment.view.*
 
@@ -52,26 +51,18 @@ class MainFragment : Fragment() {
     }
 
     private val onClickListener: View.OnClickListener = View.OnClickListener {
-        // TODO: FIX ON CLICK
-        val itemPosition = mainList.getChildLayoutPosition(it)
-        val item = Challenge(1, "Ops")// data[itemPosition]
+        val day = mainList.getChildLayoutPosition(it) + 1
         val transaction = this.activity?.supportFragmentManager?.beginTransaction()
-
-
         if (transaction != null) {
             val challengeFragment = ChallengeFragment()
             val args = Bundle()
-            args.putInt("day", item.day)
-            args.putString("title", item.name)
-            args.putBoolean("hasFirstStar", item.firstStar)
-            args.putBoolean("hasSecondStar", item.secondStar)
+            args.putInt("day", day)
             challengeFragment.arguments = args
             transaction.replace(R.id.container, challengeFragment)
             transaction.addToBackStack(null)
             transaction.commit()
             this.activity?.supportFragmentManager?.executePendingTransactions()
         }
-
     }
 
 
