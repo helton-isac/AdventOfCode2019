@@ -167,6 +167,23 @@
         app:layout_constraintTop_toTopOf="@+id/txtSecondAnswerLabel"
         tools:text="6789" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabRun"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:baselineAlignBottom="true"
+        android:clickable="true"
+        android:elevation="6dp"
+        android:focusable="true"
+        android:textAlignment="center"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_run_black_48dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

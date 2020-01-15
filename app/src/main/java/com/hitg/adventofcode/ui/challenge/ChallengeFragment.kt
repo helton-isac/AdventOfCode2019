@@ -16,6 +16,9 @@ import com.hitg.adventofcode.R
 import com.hitg.adventofcode.domain.model.Challenge
 import com.hitg.adventofcode.repository.TxtRepo
 import kotlinx.android.synthetic.main.challenge_fragment.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class ChallengeFragment : Fragment() {
 
@@ -25,14 +28,16 @@ class ChallengeFragment : Fragment() {
 
     private lateinit var viewModel: ChallengeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         return inflater.inflate(R.layout.challenge_fragment, container, false)
     }
 
     private fun updateView(challenge: Challenge) {
-        txt_day.text = challenge.day.toString()
+        txt_day.text = "Day " + challenge.day.toString()
         challenge_title.text = challenge.name
         updateImgStar(img_star_1, 1, challenge.firstStar)
         updateImgStar(img_star_2, 2, challenge.secondStar)
@@ -65,23 +70,30 @@ class ChallengeFragment : Fragment() {
             } catch (ignored: Exception) {
             }
         }
+        txtFirstAnswer.text = challenge.firstAnswer
+        txtSecondAnswer.text = challenge.secondAnswer
+        fabRun.setOnClickListener {
+            GlobalScope.async {
+                viewModel.runChallenge()
+            }
+        }
     }
 
     private fun updateImgStar(imgStar: ImageView, starNumber: Int, hasStar: Boolean) {
         if (hasStar) {
             imgStar.setImageResource(R.drawable.ic_star_gold_24dp)
             imgStar.contentDescription =
-                    if (starNumber == 1)
-                        imgStar.context.getString(R.string.first_star_done)
-                    else
-                        imgStar.context.getString(R.string.second_star_done)
+                if (starNumber == 1)
+                    imgStar.context.getString(R.string.first_star_done)
+                else
+                    imgStar.context.getString(R.string.second_star_done)
         } else {
             imgStar.setImageResource(R.drawable.ic_star_black_24dp)
             imgStar.contentDescription =
-                    if (starNumber == 1)
-                        imgStar.context.getString(R.string.empty_first_star)
-                    else
-                        imgStar.context.getString(R.string.empty_second_star)
+                if (starNumber == 1)
+                    imgStar.context.getString(R.string.empty_first_star)
+                else
+                    imgStar.context.getString(R.string.empty_second_star)
         }
     }
 
@@ -89,7 +101,7 @@ class ChallengeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val factory = ChallengeViewModelModelFactory(day, this)
         viewModel = ViewModelProviders.of(this, factory)
-                .get(ChallengeViewModel::class.java)
+            .get(ChallengeViewModel::class.java)
         viewModel.challenge.observe(this, Observer { challenge ->
             challenge?.let {
                 updateView(it)

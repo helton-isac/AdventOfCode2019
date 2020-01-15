@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 data class Challenge(
     @PrimaryKey val day: Int,
     @NonNull val name: String,
-    val firstStar: Boolean = false,
-    val secondStar: Boolean = false,
-    val firstAnswer: String = "",
-    val secondAnswer: String = ""
+    var firstStar: Boolean = false,
+    var secondStar: Boolean = false,
+    var firstAnswer: String = "",
+    var secondAnswer: String = ""
 )
