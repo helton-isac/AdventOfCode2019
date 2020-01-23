@@ -13,12 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.hitg.adventofcode.R
-import com.hitg.adventofcode.domain.model.Challenge
+import com.hitg.adventofcode.domain.model.entity.Challenge
 import com.hitg.adventofcode.repository.TxtRepo
 import kotlinx.android.synthetic.main.challenge_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class ChallengeFragment : Fragment() {
 
@@ -37,7 +36,7 @@ class ChallengeFragment : Fragment() {
     }
 
     private fun updateView(challenge: Challenge) {
-        txt_day.text = "Day " + challenge.day.toString()
+        txt_day.text = getString(R.string.day_text, challenge.day)
         challenge_title.text = challenge.name
         updateImgStar(img_star_1, 1, challenge.firstStar)
         updateImgStar(img_star_2, 2, challenge.secondStar)

@@ -2,7 +2,7 @@ package com.hitg.adventofcode.repository.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.hitg.adventofcode.domain.model.Challenge
+import com.hitg.adventofcode.domain.model.entity.Challenge
 
 @Dao
 interface ChallengeDAO {

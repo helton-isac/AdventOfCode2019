@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hitg.adventofcode.R
-import com.hitg.adventofcode.domain.model.Challenge
+import com.hitg.adventofcode.domain.model.entity.Challenge
 import kotlinx.android.synthetic.main.main_list_item.view.*
 
 class MainListAdapter(

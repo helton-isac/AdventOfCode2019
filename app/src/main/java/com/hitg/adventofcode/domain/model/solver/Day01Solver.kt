@@ -1,4 +1,4 @@
-package com.hitg.adventofcode.domain.model
+package com.hitg.adventofcode.domain.model.solver
 
 class Day01Solver : DaySolver {
     fun calculateFuelRequiredForAModule(mass: Int): Int {
@@ -14,6 +14,7 @@ class Day01Solver : DaySolver {
     }
 
     override fun solvePart1(): String {
+        // Get the file from internet: https://adventofcode.com/2019/day/1/input
         return "Test"
     }
 

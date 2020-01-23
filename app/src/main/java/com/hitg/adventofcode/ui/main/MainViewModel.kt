@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.hitg.adventofcode.domain.model.Challenge
+import com.hitg.adventofcode.domain.model.entity.Challenge
 import com.hitg.adventofcode.repository.ChallengeRepository
 import com.hitg.adventofcode.repository.database.ChallengeDAO
 import com.hitg.adventofcode.repository.database.ChallengeRoomDatabase

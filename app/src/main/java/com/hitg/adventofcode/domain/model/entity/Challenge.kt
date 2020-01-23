@@ -1,4 +1,4 @@
-package com.hitg.adventofcode.domain.model
+package com.hitg.adventofcode.domain.model.entity
 
 import androidx.annotation.NonNull
 import androidx.room.Entity

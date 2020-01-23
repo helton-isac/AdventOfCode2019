@@ -1,4 +1,4 @@
-package com.hitg.adventofcode.domain.model
+package com.hitg.adventofcode.domain.model.solver
 
 interface DaySolver {
     fun solvePart1(): String
