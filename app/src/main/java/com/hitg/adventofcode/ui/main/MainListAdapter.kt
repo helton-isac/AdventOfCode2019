@@ -31,6 +31,8 @@ class MainListAdapter(
         holder.setDay(dayChallengeValue.day)
         holder.setText(dayChallengeValue.name)
         holder.setStars(dayChallengeValue.firstStar, dayChallengeValue.secondStar)
+        holder.setFirstAnswer(dayChallengeValue.firstAnswer)
+        holder.setSecondAnswer(dayChallengeValue.secondAnswer)
     }
 
     internal fun setChallenges(challenges: List<Challenge>) {
@@ -47,6 +49,14 @@ class MainListAdapter(
 
         fun setDay(day: Int) {
             itemView.txt_day.text = String.format("Day %d", day)
+        }
+
+        fun setFirstAnswer(firstAnswer: String) {
+            itemView.txtFirstAnswer.text = firstAnswer
+        }
+
+        fun setSecondAnswer(secondAnswer: String) {
+            itemView.txtSecondAnswer.text = secondAnswer
         }
 
         fun setStars(hasFirstStar: Boolean, hasSecondStar: Boolean) {

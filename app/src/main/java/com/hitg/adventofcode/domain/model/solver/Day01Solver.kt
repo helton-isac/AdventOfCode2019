@@ -1,6 +1,10 @@
 package com.hitg.adventofcode.domain.model.solver
 
-class Day01Solver : DaySolver {
+import java.util.*
+
+
+class Day01Solver(private val input: String) : DaySolver {
+
     fun calculateFuelRequiredForAModule(mass: Int): Int {
         return (mass / 3) - 2
     }
@@ -13,12 +17,18 @@ class Day01Solver : DaySolver {
         return result
     }
 
-    override fun solvePart1(): String {
-        // Get the file from internet: https://adventofcode.com/2019/day/1/input
-        return "Test"
+
+    override fun solvePart1(): String? {
+        val scanner = Scanner(input)
+        val listModuleMass = mutableListOf<Int>()
+        while (scanner.hasNext()) {
+            listModuleMass.add(scanner.nextInt())
+        }
+        scanner.close()
+        return calculateFuelRequiredFromAList(listModuleMass).toString()
     }
 
-    override fun solvePart2(): String {
-        return "Test"
+    override fun solvePart2(): String? {
+        return null
     }
 }

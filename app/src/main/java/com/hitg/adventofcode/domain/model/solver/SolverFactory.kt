@@ -1,11 +1,16 @@
 package com.hitg.adventofcode.domain.model.solver
 
+import android.content.res.Resources
+import com.hitg.adventofcode.R
+import java.io.InputStream
+
 class SolverFactory {
 
     companion object {
-        fun createSolver(day: Int): DaySolver {
+        fun createSolver(res: Resources, day: Int): DaySolver {
+
             return when (day) {
-                1 -> Day01Solver()
+                1 -> Day01Solver(readFromFile(res, R.raw.input1))
                 2 -> Day02Solver()
                 3 -> Day03Solver()
                 4 -> Day04Solver()
@@ -32,6 +37,19 @@ class SolverFactory {
                 25 -> Day25Solver()
                 else -> throw Exception("Day Not Found")
             }
+        }
+
+        private fun readFromFile(res: Resources, id: Int): String {
+            try {
+                val in_s: InputStream = res.openRawResource(id)
+                val b = ByteArray(in_s.available())
+                in_s.read(b)
+                val c = String(b)
+                return c
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return ""
         }
     }
 }
