@@ -1,6 +1,6 @@
 package com.hitg.adventofcode.domain.model.solver
 
-class Day14Solver : DaySolver {
+class Day14Solver(private val input: String) : DaySolver {
 
 
     override fun solvePart1(): String? {

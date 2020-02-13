@@ -1,6 +1,5 @@
-package com.hitg.adventofcode.domain.model
+package com.hitg.adventofcode.domain.model.solver
 
-import com.hitg.adventofcode.domain.model.solver.Day01Solver
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Test
