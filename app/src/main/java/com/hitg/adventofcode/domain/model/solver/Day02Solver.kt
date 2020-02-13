@@ -17,6 +17,18 @@ class Day02Solver(private val input: String) : DaySolver {
     }
 
     override fun solvePart2(): String? {
-        return null
+
+        for (i in 0..100) {
+            for (j in 0..100) {
+                val program = input.split(",") as MutableList<String>
+                program[1] = i.toString()
+                program[2] = j.toString()
+                if (computer.executeProgram(program) == "19690720") {
+                    return (100 * i + j).toString()
+                }
+            }
+        }
+
+        return "Undefined"
     }
 }
