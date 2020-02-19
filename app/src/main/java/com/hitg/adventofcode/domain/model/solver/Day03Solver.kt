@@ -20,8 +20,8 @@ class Day03Solver(input: String) : DaySolver {
 
 
     override fun solvePart1(): String? {
-        val firsWirePath = createPathFirstWire(firstWireDirectionInstruction)
-        return findClosestIntersection(secondWireDirectionInstruction, firsWirePath)
+        val firstWirePath = createPathFirstWire(firstWireDirectionInstruction)
+        return findClosestIntersection(secondWireDirectionInstruction, firstWirePath)
     }
 
     private fun getManhattanDistance(horizontal: Int, vertical: Int): Int {
@@ -142,6 +142,127 @@ class Day03Solver(input: String) : DaySolver {
     }
 
     override fun solvePart2(): String? {
-        return null
+        val firstWirePathXSteps = createPathFirstWireWithSteps(firstWireDirectionInstruction)
+        return findLowestIntersectionStepsSum(secondWireDirectionInstruction, firstWirePathXSteps)
     }
+
+    private fun createPathFirstWireWithSteps(wire: List<String>): MutableMap<String, Int> {
+        var horizontal = 0
+        var vertical = 0
+        val map = mutableMapOf<String, Int>()
+        var steps = 0
+        for (instruction in wire) {
+            val direction = instruction.substring(0, 1)
+            val amount = instruction.substring(1).toInt()
+            when (direction) {
+                "U" -> {
+                    repeat(amount) {
+                        vertical++
+                        steps++
+                        if (map["[${horizontal},${vertical}]"] == null) {
+                            map["[${horizontal},${vertical}]"] = steps
+                        }
+                    }
+                }
+                "D" -> {
+                    repeat(amount) {
+                        vertical--
+                        steps++
+                        if (map["[${horizontal},${vertical}]"] == null) {
+                            map["[${horizontal},${vertical}]"] = steps
+                        }
+                    }
+                }
+                "R" -> {
+                    repeat(amount) {
+                        horizontal++
+                        steps++
+                        if (map["[${horizontal},${vertical}]"] == null) {
+                            map["[${horizontal},${vertical}]"] = steps
+                        }
+                    }
+                }
+                "L" -> {
+                    repeat(amount) {
+                        horizontal--
+                        steps++
+                        if (map["[${horizontal},${vertical}]"] == null) {
+                            map["[${horizontal},${vertical}]"] = steps
+                        }
+                    }
+                }
+            }
+        }
+        return map
+    }
+
+    private fun findLowestIntersectionStepsSum(
+        wireInstructions: List<String>,
+        pathMap: MutableMap<String, Int>
+    ): String {
+        var currentHorizontal = 0
+        var currentVertical = 0
+        var steps = 0
+        var lowest = Int.MAX_VALUE
+        for (instruction in wireInstructions) {
+            val direction = instruction.substring(0, 1)
+            val amount = instruction.substring(1).toInt()
+            when (direction) {
+                "U" -> {
+                    repeat(amount) {
+                        currentVertical++
+                        steps++
+                        if (pathMap["[${currentHorizontal},${currentVertical}]"] != null) {
+                            val stepSum =
+                                pathMap["[${currentHorizontal},${currentVertical}]"]?.plus(steps)
+                            if (stepSum != null && stepSum < lowest) {
+                                lowest = stepSum
+                            }
+                        }
+                    }
+                }
+                "D" -> {
+                    repeat(amount) {
+                        currentVertical--
+                        steps++
+                        if (pathMap["[${currentHorizontal},${currentVertical}]"] != null) {
+                            val stepSum =
+                                pathMap["[${currentHorizontal},${currentVertical}]"]?.plus(steps)
+                            if (stepSum != null && stepSum < lowest) {
+                                lowest = stepSum
+                            }
+                        }
+                    }
+                }
+                "R" -> {
+                    repeat(amount) {
+                        currentHorizontal++
+                        steps++
+                        if (pathMap["[${currentHorizontal},${currentVertical}]"] != null) {
+                            val stepSum =
+                                pathMap["[${currentHorizontal},${currentVertical}]"]?.plus(steps)
+                            if (stepSum != null && stepSum < lowest) {
+                                lowest = stepSum
+                            }
+                        }
+                    }
+                }
+                "L" -> {
+                    repeat(amount) {
+                        currentHorizontal--
+                        steps++
+                        if (pathMap["[${currentHorizontal},${currentVertical}]"] != null) {
+                            val stepSum =
+                                pathMap["[${currentHorizontal},${currentVertical}]"]?.plus(steps)
+                            if (stepSum != null && stepSum < lowest) {
+                                lowest = stepSum
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return lowest.toString()
+    }
+
 }
