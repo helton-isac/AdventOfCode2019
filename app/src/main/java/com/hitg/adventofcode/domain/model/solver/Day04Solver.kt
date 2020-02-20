@@ -6,62 +6,13 @@ class Day04Solver(input: String) : DaySolver {
     private val initialRange: Int = input.split("-")[0].toInt()
     private val finalRange: Int = input.split("-")[1].trim().toInt()
 
-    override fun solvePart1(): String? {
-        var count = 0
-        var i = initialRange
-        while (i <= finalRange) {
-
-            when {
-                i.toString()[0] > i.toString()[1] -> {
-                    i = (i.toString()[0].toString()
-                            + i.toString()[0].toString()
-                            + i.toString()[0].toString()
-                            + i.toString()[0].toString()
-                            + i.toString()[0].toString()
-                            + i.toString()[0].toString()).toInt()
-                }
-                i.toString()[1] > i.toString()[2] -> {
-                    i = (i.toString()[0].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[1].toString()).toInt()
-                }
-                i.toString()[2] > i.toString()[3] -> {
-                    i = (i.toString()[0].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[2].toString()
-                            + i.toString()[2].toString()
-                            + i.toString()[2].toString()
-                            + i.toString()[2].toString()).toInt()
-                }
-                i.toString()[3] > i.toString()[4] -> {
-                    i = (i.toString()[0].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[2].toString()
-                            + i.toString()[3].toString()
-                            + i.toString()[3].toString()
-                            + i.toString()[3].toString()).toInt()
-                }
-                i.toString()[4] > i.toString()[5] -> {
-                    i = (i.toString()[0].toString()
-                            + i.toString()[1].toString()
-                            + i.toString()[2].toString()
-                            + i.toString()[3].toString()
-                            + i.toString()[4].toString()
-                            + i.toString()[4].toString()).toInt()
-                }
-            }
-            if (i > finalRange) {
-                break
-            }
-            if (validatePassword(i.toString())) {
-                count++
-            }
-            i++
-        }
-        return count.toString()
+    fun validatePassword(
+        password: String,
+        validateFunction: (password: String) -> Boolean
+    ): Boolean {
+        return isValidLength(password)
+                && isLeftRightIncreasing(password)
+                && validateFunction(password)
     }
 
     /**
@@ -71,8 +22,7 @@ class Day04Solver(input: String) : DaySolver {
      * Going from left to right, the digits never decrease;
      * they only ever increase or stay the same (like 111123 or 135679).
      */
-    private fun validatePassword(password: String): Boolean {
-        val isSixDigit = password.length == 6
+    fun validatePasswordForFirstPuzzle(password: String): Boolean {
         var lastLetter = '0'
         var hasAdjacentDigits = false
         for (letter in password) {
@@ -82,11 +32,115 @@ class Day04Solver(input: String) : DaySolver {
             }
             lastLetter = letter
         }
-        return hasAdjacentDigits && isSixDigit
+        return hasAdjacentDigits
     }
 
+    /**
+     * The two adjacent matching digits are not part of a larger group of matching digits.
+     */
+    fun validatePasswordForSecondPuzzle(password: String): Boolean {
+        var lastLetter = '0'
+        var countEqualsAdjacents = 0
+        for (letter in password) {
+            if (letter == lastLetter) {
+                countEqualsAdjacents++
+            } else {
+                if (countEqualsAdjacents == 2) {
+                    break
+                }
+                countEqualsAdjacents = 1
+            }
+            lastLetter = letter
+        }
+        return countEqualsAdjacents == 2
+    }
+
+    private fun isValidLength(password: String): Boolean {
+        return password.length == 6
+    }
+
+    private fun isLeftRightIncreasing(password: String): Boolean {
+        var lastLetter = '0'
+        for (currentLetter in password) {
+            if (currentLetter < lastLetter) {
+                return false
+            }
+            lastLetter = currentLetter
+        }
+        return true
+    }
+
+    override fun solvePart1(): String? {
+        return validatePasswords(this::validatePasswordForFirstPuzzle)
+    }
 
     override fun solvePart2(): String? {
-        return null
+        return validatePasswords(this::validatePasswordForSecondPuzzle)
     }
+
+    private fun validatePasswords(validateFunction: (password: String) -> Boolean): String {
+        var count = 0
+        var passwordCandidate = initialRange
+        while (passwordCandidate <= finalRange) {
+
+            passwordCandidate = getNextValidPassword(passwordCandidate)
+            if (passwordCandidate > finalRange) {
+                break
+            }
+            if (validatePassword(passwordCandidate.toString(), validateFunction)) {
+                count++
+            }
+            passwordCandidate++
+        }
+        return count.toString()
+    }
+
+    private fun getNextValidPassword(password: Int): Int {
+        return when {
+            password.toString()[0] > password.toString()[1] -> {
+                (password.toString()[0].toString()
+                        + password.toString()[0].toString()
+                        + password.toString()[0].toString()
+                        + password.toString()[0].toString()
+                        + password.toString()[0].toString()
+                        + password.toString()[0].toString()).toInt()
+            }
+            password.toString()[1] > password.toString()[2] -> {
+                (password.toString()[0].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[1].toString()).toInt()
+            }
+            password.toString()[2] > password.toString()[3] -> {
+                (password.toString()[0].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[2].toString()
+                        + password.toString()[2].toString()
+                        + password.toString()[2].toString()
+                        + password.toString()[2].toString()).toInt()
+            }
+            password.toString()[3] > password.toString()[4] -> {
+                (password.toString()[0].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[2].toString()
+                        + password.toString()[3].toString()
+                        + password.toString()[3].toString()
+                        + password.toString()[3].toString()).toInt()
+            }
+            password.toString()[4] > password.toString()[5] -> {
+                (password.toString()[0].toString()
+                        + password.toString()[1].toString()
+                        + password.toString()[2].toString()
+                        + password.toString()[3].toString()
+                        + password.toString()[4].toString()
+                        + password.toString()[4].toString()).toInt()
+            }
+            else -> {
+                password
+            }
+        }
+    }
+
 }
