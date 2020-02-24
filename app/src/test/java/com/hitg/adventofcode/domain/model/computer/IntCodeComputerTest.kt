@@ -61,4 +61,28 @@ class IntCodeComputerTest {
             CoreMatchers.`is`("30")
         )
     }
+
+    @Test
+    fun `given the instructions 3,0,4,0,99 and the input 10 it should compute and outputs 10`() {
+        val input = "3,0,4,0,99"
+        val computer = IntCodeComputer(10)
+        computer.executeProgram(input.split(",") as MutableList<String>)
+
+        assertThat(
+            computer.outputResult,
+            CoreMatchers.`is`("10")
+        )
+    }
+
+    @Test
+    fun `given the instructions 1002,4,3,4,33 and no input it should compute 99 and store in position 10`() {
+        val input = mutableListOf("1002", "4", "3", "4", "33")
+        val computer = IntCodeComputer()
+        computer.executeProgram(input)
+
+        assertThat(
+            input[4],
+            CoreMatchers.`is`("99")
+        )
+    }
 }

@@ -1,10 +1,14 @@
 package com.hitg.adventofcode.domain.model.solver
 
+import com.hitg.adventofcode.domain.model.computer.IntCodeComputer
+
 class Day05Solver(private val input: String) : DaySolver {
 
-
     override fun solvePart1(): String? {
-        return null
+        val computer = IntCodeComputer(1)
+        val program = input.split(",") as MutableList<String>
+        computer.executeProgram(program)
+        return computer.outputResult
     }
 
     override fun solvePart2(): String? {
