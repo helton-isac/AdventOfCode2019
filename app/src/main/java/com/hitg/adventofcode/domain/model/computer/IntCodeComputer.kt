@@ -14,6 +14,10 @@ class IntCodeComputer(var input: Int? = null) {
         MULTIPLIES(2),
         INPUT(3),
         OUTPUT(4),
+        JUMP_IF_TRUE(5),
+        JUMP_IF_FALSE(6),
+        LESS_THAN(7),
+        EQUALS(8),
         FINISHED(99)
     }
 
@@ -42,6 +46,81 @@ class IntCodeComputer(var input: Int? = null) {
         val secondValue = getParameterValue(program, parametersMode, 1, positionSecondValue)
         program[positionToStore] = (firstValue * secondValue).toString()
     }
+
+    private fun output(program: MutableList<String>, parametersMode: List<Int>, position: Int) {
+
+        outputResult =
+            getParameterValue(program, parametersMode, 0, position).toString()
+    }
+
+    private fun input(program: MutableList<String>, position: Int) {
+        program[position] = input.toString()
+    }
+
+    private fun jumpIfTrue(
+        program: MutableList<String>,
+        parametersMode: List<Int>,
+        instructionPosition: Int,
+        positionFirstValue: Int,
+        positionSecondValue: Int
+    ): Int {
+        val firstValue = getParameterValue(program, parametersMode, 0, positionFirstValue)
+        val secondValue = getParameterValue(program, parametersMode, 1, positionSecondValue)
+        return if (firstValue != 0) {
+            secondValue
+        } else {
+            instructionPosition + 3
+        }
+    }
+
+    private fun jumpIfFalse(
+        program: MutableList<String>,
+        parametersMode: List<Int>,
+        instructionPosition: Int,
+        positionFirstValue: Int,
+        positionSecondValue: Int
+    ): Int {
+        val firstValue = getParameterValue(program, parametersMode, 0, positionFirstValue)
+        val secondValue = getParameterValue(program, parametersMode, 1, positionSecondValue)
+        return if (firstValue == 0) {
+            secondValue
+        } else {
+            instructionPosition + 3
+        }
+    }
+
+    private fun lessThan(
+        program: MutableList<String>,
+        parametersMode: List<Int>,
+        positionFirstValue: Int,
+        positionSecondValue: Int,
+        positionThirdValue: Int
+    ) {
+        val firstValue = getParameterValue(program, parametersMode, 0, positionFirstValue)
+        val secondValue = getParameterValue(program, parametersMode, 1, positionSecondValue)
+        program[positionThirdValue] = (if (firstValue < secondValue) {
+            1
+        } else {
+            0
+        }).toString()
+    }
+
+    private fun equal(
+        program: MutableList<String>,
+        parametersMode: List<Int>,
+        positionFirstValue: Int,
+        positionSecondValue: Int,
+        positionThirdValue: Int
+    ) {
+        val firstValue = getParameterValue(program, parametersMode, 0, positionFirstValue)
+        val secondValue = getParameterValue(program, parametersMode, 1, positionSecondValue)
+        program[positionThirdValue] = (if (firstValue == secondValue) {
+            1
+        } else {
+            0
+        }).toString()
+    }
+
 
     private fun getParameterValue(
         program: MutableList<String>,
@@ -96,9 +175,48 @@ class IntCodeComputer(var input: Int? = null) {
                 OUTPUT.value -> {
                     output(
                         program,
+                        parameterModes,
                         program[position + 1].toInt()
                     )
                     position += 2
+                }
+                JUMP_IF_TRUE.value -> {
+                    position = jumpIfTrue(
+                        program,
+                        parameterModes,
+                        position,
+                        program[position + 1].toInt(),
+                        program[position + 2].toInt()
+                    )
+                }
+                JUMP_IF_FALSE.value -> {
+                    position = jumpIfFalse(
+                        program,
+                        parameterModes,
+                        position,
+                        program[position + 1].toInt(),
+                        program[position + 2].toInt()
+                    )
+                }
+                LESS_THAN.value -> {
+                    lessThan(
+                        program,
+                        parameterModes,
+                        program[position + 1].toInt(),
+                        program[position + 2].toInt(),
+                        program[position + 3].toInt()
+                    )
+                    position += 4
+                }
+                EQUALS.value -> {
+                    equal(
+                        program,
+                        parameterModes,
+                        program[position + 1].toInt(),
+                        program[position + 2].toInt(),
+                        program[position + 3].toInt()
+                    )
+                    position += 4
                 }
                 else -> throw Exception("Unknown Opcode")
             }
@@ -127,14 +245,6 @@ class IntCodeComputer(var input: Int? = null) {
                 instruction.length - 4
             ).toString().toInt()
         )
-    }
-
-    private fun output(program: MutableList<String>, position: Int) {
-        outputResult = program[position]
-    }
-
-    private fun input(program: MutableList<String>, position: Int) {
-        program[position] = input.toString()
     }
 
 
