@@ -56,33 +56,29 @@ class Day06Solver(input: String) : DaySolver {
         }
     }
 
-    fun countExternalPath(orbitObject: OrbitObject){
-//                G - H       J - K - L
-//               /           /
-//        COM - B - C - D - E - F
-//                       \
-//                        I
-//        0+1+2+3+2+3+4+4+5+6+7+5
-//        com - 0
-//        B = 0 + 1 = 1
-//        G = 1 + B(1) = 2
-//        H = 1 + G(2) = 3
-//        C = 1 + B(1) = 2
-//        D = 1 + C(2) = 3
-//        I = 1 + D(3) = 4
-//        E = 1 + D(3) = 4
-//        J = 1 + E(4) = 5
-//        K = 1 + J(5) = 6
-//        L = 1 + K(6) = 7
-//        F = 1 + E(4) = 5
+    var count: Int = 0
+
+    fun countExternalPath(orbitObject: OrbitObject, amount: Int): Int {
+        var localCount = 0
+        if (orbitObject.internalObject == null) {
+            for (externalObject in orbitObject.externalObjects) {
+                countExternalPath(externalObject, localCount);
+            }
+        } else {
+            localCount = amount + 1;
+            for (externalObject in orbitObject.externalObjects) {
+                countExternalPath(externalObject, localCount);
+            }
+        }
+        count += localCount
+        return count
     }
 
     override fun solvePart1(): String? {
-        var count = 0;
         orbitsWithoutInternal.forEach {
             val orbitObject = orbitsMap[it]
-            orbitObject?.externalObjects?.forEach {
-
+            if (orbitObject != null) {
+                return countExternalPath(orbitObject, 0).toString()
             }
         }
         return null
