@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.hitg.adventofcode.R
 import com.hitg.adventofcode.domain.model.entity.Challenge
 import com.hitg.adventofcode.repository.TxtRepo
@@ -99,9 +99,10 @@ class ChallengeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val factory = ChallengeViewModelModelFactory(day, this)
-        viewModel = ViewModelProviders.of(this, factory)
+
+        viewModel = ViewModelProvider(this, factory)
             .get(ChallengeViewModel::class.java)
-        viewModel.challenge.observe(this, Observer { challenge ->
+        viewModel.challenge.observe(viewLifecycleOwner, Observer { challenge ->
             challenge?.let {
                 updateView(it)
             }
