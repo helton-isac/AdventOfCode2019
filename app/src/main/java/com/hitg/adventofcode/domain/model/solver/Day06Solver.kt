@@ -56,18 +56,18 @@ class Day06Solver(input: String) : DaySolver {
         }
     }
 
-    var count: Int = 0
+    private var count: Int = 0
 
-    fun countExternalPath(orbitObject: OrbitObject, amount: Int): Int {
+    private fun countExternalPath(orbitObject: OrbitObject, amount: Int): Int {
         var localCount = 0
         if (orbitObject.internalObject == null) {
             for (externalObject in orbitObject.externalObjects) {
-                countExternalPath(externalObject, localCount);
+                countExternalPath(externalObject, localCount)
             }
         } else {
-            localCount = amount + 1;
+            localCount = amount + 1
             for (externalObject in orbitObject.externalObjects) {
-                countExternalPath(externalObject, localCount);
+                countExternalPath(externalObject, localCount)
             }
         }
         count += localCount
@@ -75,6 +75,7 @@ class Day06Solver(input: String) : DaySolver {
     }
 
     override fun solvePart1(): String? {
+        count = 0
         orbitsWithoutInternal.forEach {
             val orbitObject = orbitsMap[it]
             if (orbitObject != null) {
@@ -85,7 +86,57 @@ class Day06Solver(input: String) : DaySolver {
     }
 
     override fun solvePart2(): String? {
-        return null
+        val objectYou = orbitsMap["YOU"]
+        if (objectYou != null) {
+            return findSanta(objectYou.internalObject, 0, objectYou.name).toString()
+        }
+        return count.toString()
+    }
+
+    private fun findSanta(
+        orbitObject: OrbitObject?,
+        steps: Int,
+        callerName: String
+    ): Int {
+        if (orbitObject != null) {
+            return if (orbitObject.name == "SAN") {
+                steps - 1
+            } else {
+                if (orbitObject.internalObject != null && orbitObject.internalObject!!.name != callerName) {
+                    val stepsToSanta =
+                        findSanta(orbitObject.internalObject, steps + 1, orbitObject.name)
+                    if (stepsToSanta != 0) {
+                        stepsToSanta
+                    } else {
+                        findSantaExternal(orbitObject, callerName, steps)
+                    }
+                } else {
+                    findSantaExternal(orbitObject, callerName, steps)
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun findSantaExternal(
+        orbitObject: OrbitObject,
+        callerName: String,
+        steps: Int
+    ): Int {
+        var stepsToSanta: Int
+        for (externalObject in orbitObject.externalObjects) {
+            if (externalObject.name != callerName) {
+                stepsToSanta = findSanta(
+                    externalObject,
+                    steps + 1,
+                    orbitObject.name
+                )
+                if (stepsToSanta != 0) {
+                    return stepsToSanta
+                }
+            }
+        }
+        return 0
     }
 }
 
