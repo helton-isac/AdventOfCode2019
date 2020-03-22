@@ -2,7 +2,9 @@ package com.hitg.adventofcode.domain.model.computer
 
 import com.hitg.adventofcode.domain.model.computer.IntCodeComputer.OpCode.*
 
-class IntCodeComputer(var input: Int? = null) {
+class IntCodeComputer(val input: List<Int>? = null) {
+
+
 
     enum class ParameterMode(val value: Int) {
         POSITION_MODE(0),
@@ -22,6 +24,8 @@ class IntCodeComputer(var input: Int? = null) {
     }
 
     var outputResult: String = ""
+
+    var inputCursor = 0
 
     /**
      * Opcode 1 adds together numbers read from two positions and stores the result in a
@@ -76,7 +80,12 @@ class IntCodeComputer(var input: Int? = null) {
      * For example, the instruction 3,50 would take an input value and store it at address 50.
      */
     private fun input(program: MutableList<String>, position: Int) {
-        program[position] = input.toString()
+        if (input != null && inputCursor < input.size) {
+            program[position] = input[inputCursor].toString()
+            inputCursor++
+        } else {
+            throw Exception("No Input Available")
+        }
     }
 
     /**

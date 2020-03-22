@@ -66,7 +66,7 @@ class IntCodeComputerTest {
     @Test
     fun `given the instructions 3,0,4,0,99 and the input 10 it should compute and outputs 10`() {
         val input = "3,0,4,0,99"
-        val computer = IntCodeComputer(10)
+        val computer = IntCodeComputer(listOf(10))
         computer.executeProgram(input.split(",") as MutableList<String>)
 
         assertThat(
@@ -91,7 +91,7 @@ class IntCodeComputerTest {
     fun `3,9,8,9,10,9,4,9,99,-1,8 - Using position mode, consider whether the input is equal to 8 - output 1 (if it is) or 0 (if it is not)`() {
         val input = mutableListOf("3", "9", "8", "9", "10", "9", "4", "9", "99", "-1", "8")
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input)
 
             if (i != 8) {
@@ -113,7 +113,7 @@ class IntCodeComputerTest {
     fun `3,9,7,9,10,9,4,9,99,-1,8 - Using position mode, consider whether the input is less than 8 - output 1 (if it is) or 0 (if it is not)`() {
         val input = mutableListOf("3", "9", "7", "9", "10", "9", "4", "9", "99", "-1", "8")
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input)
 
             if (i >= 8) {
@@ -134,7 +134,7 @@ class IntCodeComputerTest {
     fun `3,3,1108,-1,8,3,4,3,99 - Using immediate mode, consider whether the input is equal to 8 - output 1 (if it is) or 0 (if it is not)`() {
         val input = mutableListOf("3", "3", "1108", "-1", "8", "3", "4", "3", "99")
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input)
 
             if (i == 8) {
@@ -155,7 +155,7 @@ class IntCodeComputerTest {
     fun `3,3,1107,-1,8,3,4,3,99 - Using immediate mode, consider whether the input is less than 8 - output 1 (if it is) or 0 (if it is not)`() {
         val input = mutableListOf("3", "3", "1107", "-1", "8", "3", "4", "3", "99")
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input)
 
             if (i < 8) {
@@ -176,7 +176,7 @@ class IntCodeComputerTest {
     fun `3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9 - jump tests that take an input, then output 0 if the input was zero or 1 if the input was non-zero`() {
         val input = mutableListOf(3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9)
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input.map { it.toString() }.toMutableList())
 
             if (i == 0) {
@@ -197,7 +197,7 @@ class IntCodeComputerTest {
     fun `3,3,1105,-1,9,1101,0,0,12,4,12,99,1 - jump tests that take an input, then output 0 if the input was zero or 1 if the input was non-zero`() {
         val input = mutableListOf(3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1)
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input.map { it.toString() }.toMutableList())
 
             if (i == 0) {
@@ -222,7 +222,7 @@ class IntCodeComputerTest {
             999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99
         )
         for (i in 0..10) {
-            val computer = IntCodeComputer(i)
+            val computer = IntCodeComputer(listOf(i))
             computer.executeProgram(input.map { it.toString() }.toMutableList())
 
             when {
