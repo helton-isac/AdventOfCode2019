@@ -1,2 +1,10 @@
-# AdventOfCode2019
-I hope this time I finish all the challenges
+# Advent Of Code 2019
+
+Sharing my Progress:
+
+![Progress](./demo/progress.png)
+
+![app demo](./demo/app_demo.gif)
+
+
+https://adventofcode.com/
