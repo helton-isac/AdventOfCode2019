@@ -2,9 +2,8 @@
 
 Sharing my Progress:
 
-![Progress](./demo/progress.png)
+<img src="./demo/progress.png" width="250">
 
-![app demo](./demo/app_demo.gif)
-
+<img src="./demo/app_demo.gif" width="250">
 
 https://adventofcode.com/
